@@ -101,7 +101,6 @@ if __name__=="__main__":
             print(action)
             play.changeBoard(action.x,action.y)
         except Exception as e:
-            print("Error",e)
             print("Game Ended!")
             break
 
