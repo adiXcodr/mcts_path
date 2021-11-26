@@ -88,7 +88,7 @@ class Action():
 if __name__=="__main__":
     play = mazeEnvironmentState()
     searcher = mcts(timeLimit=1000)
-    epochs = 10
+    epochs = DIMENSION*DIMENSION+1
 
     for i in range(epochs):
         if(i%2==0):
