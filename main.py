@@ -12,9 +12,12 @@ class mazeEnvironmentState():
         self.board = randomBoard(DIMENSION)
         self.currentPlayer = 1
 
+    def changeCurrentPlayer(self,player):
+        self.currentPlayer = player
+
     def changeBoard(self,x,y):
         newState = deepcopy(self)
-        newState.board[x][y] = 1
+        newState.board[x][y] = self.currentPlayer
         self.board = newState.board
 
     def displayBoard(self):
@@ -83,14 +86,22 @@ class Action():
         return hash((self.x, self.y, self.player))
 
 if __name__=="__main__":
-    initialState = mazeEnvironmentState()
-
+    play = mazeEnvironmentState()
+    searcher = mcts(timeLimit=1000)
     epochs = 10
 
     for i in range(epochs):
-        initialState.displayBoard()
-        searcher = mcts(timeLimit=1000)
-        action = searcher.search(initialState=initialState)
-        print(action)
-        initialState.changeBoard(action.x,action.y)
+        if(i%2==0):
+            play.changeCurrentPlayer(1)
+        else:
+            play.changeCurrentPlayer(2)
+        play.displayBoard()
+        try:
+            action = searcher.search(initialState=play)
+            print(action)
+            play.changeBoard(action.x,action.y)
+        except Exception as e:
+            print("Game Ended!")
+            break
+
 
