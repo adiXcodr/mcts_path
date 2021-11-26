@@ -94,13 +94,14 @@ if __name__=="__main__":
         if(i%2==0):
             play.changeCurrentPlayer(1)
         else:
-            play.changeCurrentPlayer(2)
+            play.changeCurrentPlayer(-1)
         play.displayBoard()
         try:
             action = searcher.search(initialState=play)
             print(action)
             play.changeBoard(action.x,action.y)
         except Exception as e:
+            print("Error",e)
             print("Game Ended!")
             break
 
