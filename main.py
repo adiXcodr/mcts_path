@@ -1,14 +1,24 @@
 
 from copy import deepcopy
 from algorithm.mcts import mcts
+from algorithm.utils import randomBoard
 from functools import reduce
 import operator
 
+DIMENSION = 3
 
-class NaughtsAndCrossesState():
+class mazeEnvironmentState():
     def __init__(self):
-        self.board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+        self.board = randomBoard(DIMENSION)
         self.currentPlayer = 1
+
+    def changeBoard(self,x,y):
+        newState = deepcopy(self)
+        newState.board[x][y] = 1
+        self.board = newState.board
+
+    def displayBoard(self):
+        print(self.board)
 
     def getCurrentPlayer(self):
         return self.currentPlayer
@@ -29,28 +39,28 @@ class NaughtsAndCrossesState():
 
     def isTerminal(self):
         for row in self.board:
-            if abs(sum(row)) == 3:
+            if abs(sum(row)) == DIMENSION:
                 return True
         for column in list(map(list, zip(*self.board))):
-            if abs(sum(column)) == 3:
+            if abs(sum(column)) == DIMENSION:
                 return True
         for diagonal in [[self.board[i][i] for i in range(len(self.board))],
                          [self.board[i][len(self.board) - i - 1] for i in range(len(self.board))]]:
-            if abs(sum(diagonal)) == 3:
+            if abs(sum(diagonal)) == DIMENSION:
                 return True
         return reduce(operator.mul, sum(self.board, []), 1)
 
     def getReward(self):
         for row in self.board:
-            if abs(sum(row)) == 3:
-                return sum(row) / 3
+            if abs(sum(row)) == DIMENSION:
+                return sum(row) / DIMENSION
         for column in list(map(list, zip(*self.board))):
-            if abs(sum(column)) == 3:
-                return sum(column) / 3
+            if abs(sum(column)) == DIMENSION:
+                return sum(column) / DIMENSION
         for diagonal in [[self.board[i][i] for i in range(len(self.board))],
                          [self.board[i][len(self.board) - i - 1] for i in range(len(self.board))]]:
-            if abs(sum(diagonal)) == 3:
-                return sum(diagonal) / 3
+            if abs(sum(diagonal)) == DIMENSION:
+                return sum(diagonal) / DIMENSION
         return False
 
 
@@ -73,8 +83,14 @@ class Action():
         return hash((self.x, self.y, self.player))
 
 if __name__=="__main__":
-    initialState = NaughtsAndCrossesState()
-    searcher = mcts(timeLimit=1000)
-    action = searcher.search(initialState=initialState)
+    initialState = mazeEnvironmentState()
 
-    print(action)
+    epochs = 10
+
+    for i in range(epochs):
+        initialState.displayBoard()
+        searcher = mcts(timeLimit=1000)
+        action = searcher.search(initialState=initialState)
+        print(action)
+        initialState.changeBoard(action.x,action.y)
+
