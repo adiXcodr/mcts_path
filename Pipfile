@@ -8,6 +8,11 @@ main = "python main.py"
 
 [packages]
 pipenv = "*"
+numpy = "*"
+scipy = "*"
+pytest = "*"
+pip = "*"
+install = "*"
 
 [dev-packages]
 
