@@ -120,10 +120,10 @@ class mazeEnvironmentState():
         for column in list(map(list, zip(*self.board))):
             if abs(sum(column)) == DIMENSION:
                 return sum(column) / DIMENSION
-        for diagonal in [[self.board[i][i] for i in range(len(self.board))],
-                         [self.board[i][len(self.board) - i - 1] for i in range(len(self.board))]]:
-            if abs(sum(diagonal)) == DIMENSION:
-                return sum(diagonal) / DIMENSION
+        # for diagonal in [[self.board[i][i] for i in range(len(self.board))],
+        #                  [self.board[i][len(self.board) - i - 1] for i in range(len(self.board))]]:
+        #     if abs(sum(diagonal)) == DIMENSION:
+        #         return sum(diagonal) / DIMENSION
         return False
 
 
