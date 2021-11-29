@@ -55,7 +55,6 @@ class mcts():
 
     def search(self, initialState, needDetails=False):
         self.root = treeNode(initialState, None)
-
         if self.limitType == 'time':
             timeLimit = time.time() + self.timeLimit / 1000
             while time.time() < timeLimit:
