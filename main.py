@@ -98,7 +98,6 @@ class mazeEnvironmentState():
                 if(self.board[max_index[0]-1][max_index[1]]!=-1):
                     possibleActions.append(Action(player=self.currentPlayer, x=max_index[0]-1, y=max_index[1]))
 
-        # print(possibleActions,self.currentPlayer)
         return possibleActions
 
 
@@ -159,10 +158,6 @@ if __name__=="__main__":
     play.changeBoard(DIMENSION-1,0)
 
     for i in range(1,epochs-1):
-        # if(i%2==0):
-        #     play.changeCurrentPlayer(1)
-        # else:
-        #     play.changeCurrentPlayer(-1)
         play.displayBoard()
         try:
             #Update score on board as the current position of the player
