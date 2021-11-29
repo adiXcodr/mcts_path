@@ -1,6 +1,6 @@
 import random
 
-possibilities = [0, 0, 0, 1]
+possibilities = [0, 0, 0, -1]
 
 def initialBoard(n):
     matrix = []
