@@ -35,17 +35,21 @@ class mazeEnvironmentState():
         possibleActions = []
         b=np.array(self.board)
         max_index= np.unravel_index(b.argmax(), b.shape)
-        if(max_index[0]==0):
+
+        if(max_index[0]==0):  
+            #Left Upper Corner
             if (max_index[1]==0):
                 if(self.board[0][1]!=-1):
                     possibleActions.append(Action(player=self.currentPlayer, x=0, y=1))
                 if(self.board[1][0]!=-1):
                     possibleActions.append(Action(player=self.currentPlayer, x=1, y=0))
-            elif(max_index[1]==2):
-                if(self.board[0][1]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=0, y=1))
-                if(self.board[1][2]!=-1):    
-                    possibleActions.append(Action(player=self.currentPlayer, x=1, y=2))
+            #Right Upper Corner
+            elif(max_index[1]==DIMENSION-1):
+                if(self.board[0][DIMENSION-2]!=-1):
+                    possibleActions.append(Action(player=self.currentPlayer, x=0, y=DIMENSION-2))
+                if(self.board[1][DIMENSION-1]!=-1):    
+                    possibleActions.append(Action(player=self.currentPlayer, x=1, y=DIMENSION-1))
+            #Upper Remaining Elements
             else:
                 if(self.board[max_index[0]][max_index[1]-1]!=-1):
                     possibleActions.append(Action(player=self.currentPlayer, x=max_index[0], y=max_index[1]-1))
@@ -54,17 +58,24 @@ class mazeEnvironmentState():
                 if(self.board[max_index[0]+1][max_index[1]+1]!=-1):
                     possibleActions.append(Action(player=self.currentPlayer, x=max_index[0]+1, y=max_index[1]+1))
 
-        elif(max_index[0]==2):
+
+        elif(max_index[0]==DIMENSION-1):
+
+            #Left Lower Corner
             if (max_index[1]==0):
-                if(self.board[2][1]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=2, y=1))
-                if(self.board[1][0]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=1, y=0))
-            elif(max_index[1]==2):
-                if(self.board[2][1]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=2, y=1))
-                if(self.board[1][2]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=1, y=2))
+                if(self.board[DIMENSION-1][1]!=-1):
+                    possibleActions.append(Action(player=self.currentPlayer, x=DIMENSION-1, y=1))
+                if(self.board[DIMENSION-2][0]!=-1):
+                    possibleActions.append(Action(player=self.currentPlayer, x=DIMENSION-2, y=0))
+            
+            #Right Lower Corner
+            elif(max_index[1]==DIMENSION-1):
+                if(self.board[DIMENSION-1][DIMENSION-2]!=-1):
+                    possibleActions.append(Action(player=self.currentPlayer, x=DIMENSION-1, y=DIMENSION-2))
+                if(self.board[DIMENSION-2][DIMENSION-1]!=-1):
+                    possibleActions.append(Action(player=self.currentPlayer, x=DIMENSION-2, y=DIMENSION-1))
+            
+            #Bottom remaning elements
             else:
                 if(self.board[max_index[0]][max_index[1]-1]!=-1):
                     possibleActions.append(Action(player=self.currentPlayer, x=max_index[0], y=max_index[1]-1))
@@ -73,7 +84,9 @@ class mazeEnvironmentState():
                 if(self.board[max_index[0]-1][max_index[1]-1]!=-1):
                     possibleActions.append(Action(player=self.currentPlayer, x=max_index[0]-1, y=max_index[1]-1))
 
-        else:
+        
+        else:  
+            #Left Column Remaining
             if(max_index[1]==0):
                 if(self.board[max_index[0]][max_index[1]+1]!=-1):
                     possibleActions.append(Action(player=self.currentPlayer, x=max_index[0], y=max_index[1]+1))
@@ -81,8 +94,9 @@ class mazeEnvironmentState():
                     possibleActions.append(Action(player=self.currentPlayer, x=max_index[0]+1, y=max_index[1]))
                 if(self.board[max_index[0]-1][max_index[1]]!=-1):
                     possibleActions.append(Action(player=self.currentPlayer, x=max_index[0]-1, y=max_index[1]))
-
-            elif(max_index[1]==2):
+            
+            #Right Column Remaining
+            elif(max_index[1]==DIMENSION-1):
                 if(self.board[max_index[0]][max_index[1]-1]!=-1):
                     possibleActions.append(Action(player=self.currentPlayer, x=max_index[0], y=max_index[1]-1))
                 if(self.board[max_index[0]+1][max_index[1]]!=-1):
@@ -90,6 +104,7 @@ class mazeEnvironmentState():
                 if(self.board[max_index[0]-1][max_index[1]]!=-1):
                     possibleActions.append(Action(player=self.currentPlayer, x=max_index[0]-1, y=max_index[1]))
 
+            #Middle boxes (non terminal)
             else:
                 if(self.board[max_index[0]][max_index[1]-1]!=-1):
                     possibleActions.append(Action(player=self.currentPlayer, x=max_index[0], y=max_index[1]-1))

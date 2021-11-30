@@ -10,7 +10,7 @@ class UserInterface:
         while True:
             self.root.update_idletasks()
             self.root.update()
-            time.sleep(2)
+            time.sleep(1)
             self.root.quit()
             break
 
