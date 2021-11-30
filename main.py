@@ -6,30 +6,30 @@ from gui import UserInterface
 import operator
 import numpy as np
 
-DIMENSION = 4
+DIMENSION = 5
 
 class mazeEnvironmentState():
     def __init__(self):
         self.board = initialBoard(DIMENSION)
-        self.currentPlayer = 0
+        self.pointer = 0
 
-    def changeCurrentPlayer(self,player):
-        self.currentPlayer = player
+    def changePointer(self,player):
+        self.pointer = player
 
     def changeBoard(self,x,y):
         newState = deepcopy(self)
-        newState.board[x][y] = self.currentPlayer
+        newState.board[x][y] = self.pointer
         self.board = newState.board
 
     def displayBoard(self,ui):
-        print("Interation",self.currentPlayer)
+        print("Interation",self.pointer)
         # print('\n'.join(['\t'.join([str(cell) for cell in row]) for row in self.board]))
         # print("")
         ui.display_table(self.board)
         ui.run_loop()
 
-    def getCurrentPlayer(self):
-        return self.currentPlayer
+    def getCurrentPointer(self):
+        return self.pointer
 
     def getPossibleActions(self):
         possibleActions = []
@@ -38,67 +38,67 @@ class mazeEnvironmentState():
         if(max_index[0]==0):
             if (max_index[1]==0):
                 if(self.board[0][1]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=0, y=1))
+                    possibleActions.append(Action(player=self.pointer, x=0, y=1))
                 if(self.board[1][0]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=1, y=0))
+                    possibleActions.append(Action(player=self.pointer, x=1, y=0))
             elif(max_index[1]==DIMENSION-1):
                 if(self.board[0][DIMENSION-2]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=0, y=DIMENSION-2))
+                    possibleActions.append(Action(player=self.pointer, x=0, y=DIMENSION-2))
                 if(self.board[1][DIMENSION-1]!=-1):    
-                    possibleActions.append(Action(player=self.currentPlayer, x=1, y=DIMENSION-1))
+                    possibleActions.append(Action(player=self.pointer, x=1, y=DIMENSION-1))
             else:
                 if(self.board[max_index[0]][max_index[1]-1]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0], y=max_index[1]-1))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0], y=max_index[1]-1))
                 if(self.board[max_index[0]][max_index[1]+1]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0], y=max_index[1]+1))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0], y=max_index[1]+1))
                 if(self.board[max_index[0]+1][max_index[1]]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0]+1, y=max_index[1]))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0]+1, y=max_index[1]))
 
         elif(max_index[0]==DIMENSION-1):
             if (max_index[1]==0):
                 if(self.board[DIMENSION-1][1]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=DIMENSION-1, y=1))
+                    possibleActions.append(Action(player=self.pointer, x=DIMENSION-1, y=1))
                 if(self.board[DIMENSION-2][0]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=DIMENSION-2, y=0))
+                    possibleActions.append(Action(player=self.pointer, x=DIMENSION-2, y=0))
             elif(max_index[1]==DIMENSION-1):
                 if(self.board[DIMENSION-1][DIMENSION-2]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=DIMENSION-1, y=DIMENSION-2))
+                    possibleActions.append(Action(player=self.pointer, x=DIMENSION-1, y=DIMENSION-2))
                 if(self.board[DIMENSION-2][DIMENSION-1]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=DIMENSION-2, y=DIMENSION-1))
+                    possibleActions.append(Action(player=self.pointer, x=DIMENSION-2, y=DIMENSION-1))
             else:
                 if(self.board[max_index[0]][max_index[1]-1]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0], y=max_index[1]-1))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0], y=max_index[1]-1))
                 if(self.board[max_index[0]][max_index[1]+1]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0], y=max_index[1]+1))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0], y=max_index[1]+1))
                 if(self.board[max_index[0]-1][max_index[1]]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0]-1, y=max_index[1]))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0]-1, y=max_index[1]))
 
         else:
             if(max_index[1]==0):
                 if(self.board[max_index[0]][max_index[1]+1]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0], y=max_index[1]+1))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0], y=max_index[1]+1))
                 if(self.board[max_index[0]+1][max_index[1]]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0]+1, y=max_index[1]))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0]+1, y=max_index[1]))
                 if(self.board[max_index[0]-1][max_index[1]]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0]-1, y=max_index[1]))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0]-1, y=max_index[1]))
 
             elif(max_index[1]==DIMENSION-1):
                 if(self.board[max_index[0]][max_index[1]-1]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0], y=max_index[1]-1))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0], y=max_index[1]-1))
                 if(self.board[max_index[0]+1][max_index[1]]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0]+1, y=max_index[1]))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0]+1, y=max_index[1]))
                 if(self.board[max_index[0]-1][max_index[1]]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0]-1, y=max_index[1]))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0]-1, y=max_index[1]))
 
             else:
                 if(self.board[max_index[0]][max_index[1]-1]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0], y=max_index[1]-1))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0], y=max_index[1]-1))
                 if(self.board[max_index[0]][max_index[1]+1]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0], y=max_index[1]+1))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0], y=max_index[1]+1))
                 if(self.board[max_index[0]+1][max_index[1]]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0]+1, y=max_index[1]))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0]+1, y=max_index[1]))
                 if(self.board[max_index[0]-1][max_index[1]]!=-1):
-                    possibleActions.append(Action(player=self.currentPlayer, x=max_index[0]-1, y=max_index[1]))
+                    possibleActions.append(Action(player=self.pointer, x=max_index[0]-1, y=max_index[1]))
 
         return possibleActions
 
@@ -106,7 +106,7 @@ class mazeEnvironmentState():
     def takeAction(self, action):
         newState = deepcopy(self)
         newState.board[action.x][action.y] = action.player
-        newState.currentPlayer = self.currentPlayer +1
+        newState.pointer = self.pointer +1
         return newState
 
     def isTerminal(self):
@@ -122,10 +122,6 @@ class mazeEnvironmentState():
         for column in list(map(list, zip(*self.board))):
             if abs(sum(column)) == DIMENSION:
                 return sum(column) / DIMENSION
-        # for diagonal in [[self.board[i][i] for i in range(len(self.board))],
-        #                  [self.board[i][len(self.board) - i - 1] for i in range(len(self.board))]]:
-        #     if abs(sum(diagonal)) == DIMENSION:
-        #         return sum(diagonal) / DIMENSION
         return False
 
 
@@ -157,14 +153,14 @@ if __name__=="__main__":
     play.displayBoard(ui)
 
     #Start player at the starting position at the maze
-    play.changeCurrentPlayer(1)
+    play.changePointer(1)
     play.changeBoard(DIMENSION-1,0)
 
     for i in range(1,epochs-1):
         play.displayBoard(ui)
         try:
             #Update score on board as the current position of the player
-            play.changeCurrentPlayer(i+1)
+            play.changePointer(i+1)
             action = searcher.search(initialState=play)
             print("Moving to",action)
             play.changeBoard(action.x,action.y)
