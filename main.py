@@ -2,7 +2,7 @@
 from copy import deepcopy
 from algorithm.mcts import mcts
 from algorithm.utils import initialBoard
-from functools import reduce
+from gui import UserInterface
 import operator
 import numpy as np
 
@@ -21,10 +21,12 @@ class mazeEnvironmentState():
         newState.board[x][y] = self.currentPlayer
         self.board = newState.board
 
-    def displayBoard(self):
+    def displayBoard(self,ui):
         print("Interation",self.currentPlayer)
-        print('\n'.join(['\t'.join([str(cell) for cell in row]) for row in self.board]))
-        print("")
+        # print('\n'.join(['\t'.join([str(cell) for cell in row]) for row in self.board]))
+        # print("")
+        ui.display_table(self.board)
+        ui.run_loop()
 
     def getCurrentPlayer(self):
         return self.currentPlayer
@@ -147,18 +149,19 @@ class Action():
 
 if __name__=="__main__":
     play = mazeEnvironmentState()
+    ui = UserInterface()
     searcher = mcts(timeLimit=1000)
     epochs = DIMENSION*DIMENSION+1
 
     print("Initial Position")
-    play.displayBoard()
+    play.displayBoard(ui)
 
     #Start player at the starting position at the maze
     play.changeCurrentPlayer(1)
     play.changeBoard(DIMENSION-1,0)
 
     for i in range(1,epochs-1):
-        play.displayBoard()
+        play.displayBoard(ui)
         try:
             #Update score on board as the current position of the player
             play.changeCurrentPlayer(i+1)
