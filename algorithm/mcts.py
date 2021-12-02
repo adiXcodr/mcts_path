@@ -1,9 +1,6 @@
-from __future__ import division
-
 import time
 import math
 import random
-
 
 def randomPolicy(state):
     while not state.isTerminal():
@@ -71,9 +68,7 @@ class mcts():
             return action
 
     def executeRound(self):
-        """
-            execute a selection-expansion-simulation-backpropagation round
-        """
+        #execute a selection-expansion-simulation-backpropagation round
         node = self.selectNode(self.root)
         reward = self.rollout(node.state)
         self.backpropogate(node, reward)
