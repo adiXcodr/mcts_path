@@ -1,8 +1,8 @@
 import random
 
-possibilities = [0, 0, 0, -1]
-
 def initialBoard(n):
+    possibilities = n*[0]
+    possibilities[-1]=-1
     matrix = []
     for i in range(n):
         inner_matrix = []

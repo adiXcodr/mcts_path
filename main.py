@@ -6,7 +6,7 @@ from gui import UserInterface
 import operator
 import numpy as np
 
-DIMENSION = 5
+DIMENSION = 3
 
 class mazeEnvironmentState():
     def __init__(self):
@@ -35,17 +35,22 @@ class mazeEnvironmentState():
         possibleActions = []
         b=np.array(self.board)
         max_index= np.unravel_index(b.argmax(), b.shape)
+
+        #First Row
         if(max_index[0]==0):
+            #Top Left Corner
             if (max_index[1]==0):
                 if(self.board[0][1]!=-1):
                     possibleActions.append(Action(player=self.pointer, x=0, y=1))
                 if(self.board[1][0]!=-1):
                     possibleActions.append(Action(player=self.pointer, x=1, y=0))
+            #Top Right Corner
             elif(max_index[1]==DIMENSION-1):
                 if(self.board[0][DIMENSION-2]!=-1):
                     possibleActions.append(Action(player=self.pointer, x=0, y=DIMENSION-2))
                 if(self.board[1][DIMENSION-1]!=-1):    
                     possibleActions.append(Action(player=self.pointer, x=1, y=DIMENSION-1))
+            #Rest Top Positions
             else:
                 if(self.board[max_index[0]][max_index[1]-1]!=-1):
                     possibleActions.append(Action(player=self.pointer, x=max_index[0], y=max_index[1]-1))
@@ -54,17 +59,21 @@ class mazeEnvironmentState():
                 if(self.board[max_index[0]+1][max_index[1]]!=-1):
                     possibleActions.append(Action(player=self.pointer, x=max_index[0]+1, y=max_index[1]))
 
+        #Last Row
         elif(max_index[0]==DIMENSION-1):
+            #Bottom Left Corner
             if (max_index[1]==0):
                 if(self.board[DIMENSION-1][1]!=-1):
                     possibleActions.append(Action(player=self.pointer, x=DIMENSION-1, y=1))
                 if(self.board[DIMENSION-2][0]!=-1):
                     possibleActions.append(Action(player=self.pointer, x=DIMENSION-2, y=0))
+            #Bottom Right Corner
             elif(max_index[1]==DIMENSION-1):
                 if(self.board[DIMENSION-1][DIMENSION-2]!=-1):
                     possibleActions.append(Action(player=self.pointer, x=DIMENSION-1, y=DIMENSION-2))
                 if(self.board[DIMENSION-2][DIMENSION-1]!=-1):
                     possibleActions.append(Action(player=self.pointer, x=DIMENSION-2, y=DIMENSION-1))
+            #Rest of the last row positions
             else:
                 if(self.board[max_index[0]][max_index[1]-1]!=-1):
                     possibleActions.append(Action(player=self.pointer, x=max_index[0], y=max_index[1]-1))
@@ -73,6 +82,7 @@ class mazeEnvironmentState():
                 if(self.board[max_index[0]-1][max_index[1]]!=-1):
                     possibleActions.append(Action(player=self.pointer, x=max_index[0]-1, y=max_index[1]))
 
+        #Middle Rows
         else:
             if(max_index[1]==0):
                 if(self.board[max_index[0]][max_index[1]+1]!=-1):
@@ -116,13 +126,14 @@ class mazeEnvironmentState():
             return False
 
     def getReward(self):
-        for row in self.board:
-            if abs(sum(row)) == DIMENSION:
-                return sum(row) / DIMENSION
-        for column in list(map(list, zip(*self.board))):
-            if abs(sum(column)) == DIMENSION:
-                return sum(column) / DIMENSION
-        return False
+        # for row in self.board:
+        #     if abs(sum(row)) == DIMENSION:
+        #         return sum(row) / DIMENSION
+        # for column in list(map(list, zip(*self.board))):
+        #     if abs(sum(column)) == DIMENSION:
+        #         return sum(column) / DIMENSION
+        # return False
+        return 1
 
 
 class Action():
