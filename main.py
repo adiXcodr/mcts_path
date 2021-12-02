@@ -6,7 +6,7 @@ from gui import UserInterface
 import operator
 import numpy as np
 
-DIMENSION = 3
+DIMENSION = int(input("Enter Dimension: "))
 
 class mazeEnvironmentState():
     def __init__(self):
@@ -126,13 +126,6 @@ class mazeEnvironmentState():
             return False
 
     def getReward(self):
-        # for row in self.board:
-        #     if abs(sum(row)) == DIMENSION:
-        #         return sum(row) / DIMENSION
-        # for column in list(map(list, zip(*self.board))):
-        #     if abs(sum(column)) == DIMENSION:
-        #         return sum(column) / DIMENSION
-        # return False
         return 1
 
 
